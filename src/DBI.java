@@ -15,7 +15,7 @@ public class DBI {
 
     public static void registerInterface() throws SQLException {
 
-        String vCode, role = "default", update;
+        String vCode, role = "default";
         char classLetter = 0;
         int classYear = 0, i = 1;
         boolean verify = false;
@@ -66,6 +66,8 @@ public class DBI {
         }
 
         if(verify){
+            System.out.println("Enter your full name: ");
+            String fullName = scanner.nextLine();
             System.out.println("Enter your email: ");
             String email = scanner.nextLine();
             System.out.println("Enter your password: ");
@@ -83,11 +85,7 @@ public class DBI {
                     if(!passwordConfirm.equals(password)) i++;
                 }
             }
-            System.out.println("Enter your name: ");
-            String fullName = scanner.nextLine();
-            DB.register(email,password,fullName,role, classYear, classLetter);
-            String removeVC = "DELETE FROM verification_codes WHERE code = '" + vCode + "';";
-            DB.doUpdate(removeVC);
+            DB.register(vCode, email, password,fullName,role, classYear, classLetter);
         }else{
             System.out.println("Your verification code is wrong or doesn't exist");
         }
@@ -95,25 +93,28 @@ public class DBI {
     }
 
     public static void adminMenu(String name, String email) throws SQLException {
-        System.out.println("Hello admin: " + name);
-        boolean i = true;
-        while(i){
+        System.out.println("Hello " + name + " please administrate well");
+        boolean condition = true;
+
+        while(condition){
             System.out.println("---menu---");
             System.out.println("To exit the program, Press 0");
             System.out.println("To make a custom query, Press 1: ");
             System.out.println("To edit the database, Press 2: ");
-            System.out.println("To delete a user by id, Press 3: ");
-            System.out.println("To delete a user through email, Press 4: ");
-            System.out.println("To to create a verification code, Press 5: ");
-            System.out.println("To generate verification codes, Press 6: ");
-            System.out.println("To show all users, Press 7: ");
+            System.out.println("To add a user, Press 3");
+            System.out.println("To delete a user by id, Press 4: ");
+            System.out.println("To delete a user through email, Press 5: ");
+            System.out.println("To to create a verification code, Press 6: ");
+            System.out.println("To generate verification codes, Press 7: ");
+            System.out.println("To show all users, Press 8: ");
             Scanner scanner = new Scanner(System.in);
             System.out.print("answer: ");
             int answer = scanner.nextInt();
+            scanner.nextLine();
             System.out.println("----------");
             if(answer == 0){
                 System.out.println("Exiting the admin menu");
-                i = false;
+                condition = false;
             } else if(answer == 1){
                 AdminMenu.customQueryInterface();
 
@@ -121,19 +122,24 @@ public class DBI {
                 AdminMenu.customUpdateInterface();
 
             } else if (answer == 3) {
+                System.out.println("****////--Start--////****");
+                AdminMenu.addUser();
+                System.out.println("****////---End---////****");
+
+            } else if (answer == 4) {
                 System.out.println("Enter the id of the user you would like to remove: ");
                 String idToDelete = scanner.nextLine();
                 AdminMenu.removeUserByID(idToDelete);
 
-            } else if (answer == 4) {
+            } else if (answer == 5) {
                 System.out.println("Enter the criteria of the user you would like to remove: ");
                 String criteria = scanner.nextLine();
                 AdminMenu.removeUserByEmail(criteria);
 
-            } else if (answer == 5) {
+            } else if (answer == 6) {
                 AdminMenu.createVC();
 
-            } else if (answer == 6) {
+            }else if(answer == 7){
                 String roleToGen;
                 int numberOfVCs, lengthOfVCs;
                 System.out.println("Please enter the role: ");
@@ -144,20 +150,162 @@ public class DBI {
                 lengthOfVCs = scanner.nextInt();
                 AdminMenu.generateVCs(roleToGen, numberOfVCs, lengthOfVCs);
 
-            }else if(answer == 7){
+            } else if (answer == 8) {
                 AdminMenu.showUsers();
-
             }
 
         }
     }
+
     public static void directorMenu(String name, String email){
         System.out.println("you have called the director menu");
+        Scanner scanner = new Scanner(System.in);
+        boolean condition = true;
+
+        while (condition){
+            System.out.println("---menu---");
+            System.out.println("To exit the program, Press 0");
+            System.out.println("To make a custom query, Press 1: ");
+            System.out.println("To view a specific timetable, Press 2: ");
+            System.out.println("To view a specific class, Press 3: ");
+            System.out.println("To grade a student's work, Press 4: ");
+            System.out.println("To take attendance, Press 5: ");
+            System.out.println("To comment on a student, Press 6: ");
+            System.out.print("answer: ");
+            int answer = scanner.nextInt();
+            scanner.nextLine();
+
+            System.out.println("----------");
+
+            if (answer == 0){
+                condition = false;
+            } else if (answer == 1) {
+
+            }
+        }
     }
-    public static void teacherMenu(String name, String email){
-        System.out.println("you have called the teacher menu");
+
+    public static void teacherMenu(String name, String email) throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+        boolean condition = true;
+
+        while(condition){
+            System.out.println("---menu---");
+            System.out.println("To exit the program, Press 0");
+            System.out.println("To make a custom query, Press 1: ");
+            System.out.println("To view a specific timetable, Press 2: ");
+            System.out.println("To view a specific class, Press 3: ");
+            System.out.println("To grade a student's work, Press 4: ");
+            System.out.println("To take attendance, Press 5: ");
+            System.out.println("To comment on a student, Press 6: ");
+            System.out.print("answer: ");
+
+            int answer = scanner.nextInt();
+            scanner.nextLine();
+
+            System.out.println("----------");
+
+            if(answer == 0){
+                condition = false;
+
+            } else if (answer == 1) {
+                TeacherMenu.customQueryE();
+
+            } else if (answer == 2) {
+                TeacherMenu.viewTimeTable();
+
+            } else if (answer == 3) {
+                System.out.println("Enter a specific class: ");
+                String fullClass = scanner.nextLine();
+                TeacherMenu.viewClass(fullClass);
+
+            } else if (answer == 4) {
+                System.out.println("Enter the year(YYYY): ");
+                String dateYear = scanner.nextLine();
+                System.out.println("Enter the year(MM): ");
+                String dateMonth = scanner.nextLine();
+                System.out.println("Enter the year(DD): ");
+                String dateDay = scanner.nextLine();
+                String date = dateYear + "-" + dateMonth + "-" + dateDay;
+                System.out.println("Enter the subject name: ");
+                String subjectName = scanner.nextLine();
+                System.out.println("Enter the student's id: ");
+                String studentID = scanner.nextLine();
+                double grade;
+                System.out.println("Enter the grade: ");
+                grade = scanner.nextDouble();
+                scanner.nextLine();
+                TeacherMenu.grade(date, grade, subjectName, studentID, email);
+
+            } else if (answer == 5) {
+                System.out.println("Enter the year(YYYY): ");
+                String dateYear = scanner.nextLine();
+                System.out.println("Enter the year(MM): ");
+                String dateMonth = scanner.nextLine();
+                System.out.println("Enter the year(DD): ");
+                String dateDay = scanner.nextLine();
+                String date = dateYear + "-" + dateMonth + "-" + dateDay;
+                TeacherMenu.takeAttendance(date);
+
+            } else if (answer == 6) {
+                System.out.println("Enter the feedback you wish to send: ");
+                String comment = scanner.nextLine();
+                System.out.println("Enter the id of the student you wish to send it to: ");
+                String studentID = scanner.nextLine();
+                System.out.println("Enter the year(YYYY): ");
+                String dateYear = scanner.nextLine();
+                System.out.println("Enter the year(MM): ");
+                String dateMonth = scanner.nextLine();
+                System.out.println("Enter the year(DD): ");
+                String dateDay = scanner.nextLine();
+                String date = dateYear + "-" + dateMonth + "-" + dateDay;
+                TeacherMenu.sendFeedback(date, comment, email, studentID);
+            }
+        }
     }
-    public static void studentMenu(String name, String email, String fullClass){
-        System.out.println("you have called the student menu");
+
+    public static void studentMenu(String name, String email, String fullClass) throws SQLException {
+        System.out.println("Welcome " + name);
+        Scanner scanner = new Scanner(System.in);
+        boolean condition = true;
+
+        while(condition){
+            System.out.println("---menu---");
+            System.out.println("To exit the program, Press 0");
+            System.out.println("To view your timetable, Press 1: ");
+            System.out.println("To view a specific timetable, Press 2: ");
+            System.out.println("To view your report card, Press 3: ");
+            System.out.println("To view any feedback from your teachers, Press 4: ");
+            System.out.println("To view your attendance report, Press 5: ");
+            System.out.print("answer: ");
+
+            int answer = scanner.nextInt();
+            scanner.nextLine();
+
+            System.out.println("----------");
+
+            if(answer == 0){
+                condition = false;
+
+            } else if (answer == 1) {
+                StudentMenu.timeTablePersonal(fullClass);
+
+            } else if (answer == 2) {
+                StudentMenu.timeTable();
+
+            } else if (answer == 3) {
+                StudentMenu.reportCard(email);
+
+            } else if (answer == 4) {
+                StudentMenu.viewFeedback(email);
+
+            } else if (answer == 5) {
+                StudentMenu.attendanceReport(email);
+
+            }
+        }
+
+
     }
+
 }

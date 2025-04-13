@@ -23,6 +23,10 @@ public class AdminMenu {
         DB.printQuery(query);
     }
 
+    public static void addUser() throws SQLException {
+        DBI.registerInterface();
+    }
+
     public static void removeUserByID(String id){
         String update = "DELETE FROM login_info WHERE id = '" + id + "';";
         DB.doUpdate(update);
@@ -40,7 +44,7 @@ public class AdminMenu {
         role = scanner.nextLine();
         System.out.println("Please enter a verification Code");
         vCode = scanner.nextLine();
-        String update = "INSERT INTO `dnevnik`.`verification_codes` (`role`,`code`) VALUES ('" + role + ", '" + vCode + "');";
+        String update = "INSERT INTO `dnevnik`.`verification_codes` (`role`,`code`) VALUES ('" + role + "' , '" + vCode + "');";
         DB.doUpdate(update);
     }
 
@@ -50,7 +54,7 @@ public class AdminMenu {
             vCode[i] = generate(length);
         }
         for (int i = 0; i < n; i++) {
-            String update = "INSERT INTO `dnevnik`.`verification_codes` (`role`,`code`) VALUES ('" + role + ", '" + vCode[i] + "');";
+            String update = "INSERT INTO `dnevnik`.`verification_codes` (`role`,`code`) VALUES ('" + role + "' , '" + vCode[i] + "');";
             DB.doUpdate(update);
         }
     }

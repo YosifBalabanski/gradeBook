@@ -44,6 +44,18 @@ public class DB {
         return id;
     }
 
+    public static String searchSubjectID(String subjectName) throws SQLException {
+        String query = "SELECT * FROM subjects;";
+        String id = "0";
+        ResultSet rs = DB.doQuery(query);
+        while (rs.next()){
+            if(subjectName.equals(rs.getString("name"))){
+                id = rs.getString("id");
+            }
+        }
+        return id;
+    }
+
     public static void printQuery(String query) throws SQLException {
         ResultSet rs = DB.doQuery(query);
         ResultSetMetaData rsmd = rs.getMetaData(); // To get column names and count
@@ -66,7 +78,7 @@ public class DB {
         String role = "none";
         while(rs.next()){
             try {
-                if(email.equals(rs.getString("email")) && password.equals(rs.getString("password"))){
+                if(email.equals(rs.getString("email")) && password.equals(decodePassword(rs.getString("password")))){
                     System.out.println("login successful!");
                     role = rs.getString("role");
                 }
@@ -125,8 +137,8 @@ public class DB {
 
     }
 
-    public static void register(String email, String password, String fullName, String role, int classYear, char classLetter) throws SQLException {
-        String id = DB.loginInsert(email, password, role);
+    public static void register(String vCode, String email, String password, String fullName, String role, int classYear, char classLetter) throws SQLException {
+        String id = DB.loginInsert(vCode, email, password, role);
         if(id.equals("0")){
             System.out.println("Something went wrong");
         } else{
@@ -149,7 +161,9 @@ public class DB {
 
     }
 
-    public static String loginInsert(String email, String password, String role) throws SQLException {
+    public static String loginInsert(String vCode, String email, String password, String role) throws SQLException {
+        password = encodePassword(password);
+        String removeVC = "DELETE FROM verification_codes WHERE code = '" + vCode + "';";
         String id = "0", update = "INSERT INTO `dnevnik`.`login_info` (`email`,`password`,`role`) VALUES ('" + email + "', '" + password + "', '" + role + "');";
                                                                                                        //('email', 'password', 'role');
         //check to see if the email is already in the DB
@@ -157,9 +171,12 @@ public class DB {
 
         if(!id.equals("0")){
             System.out.println("Email already exists");
-        }else DB.doUpdate(update);
+        }else {
+            DB.doUpdate(update);
+            id = DB.searchLoginID(email);
+            DB.doUpdate(removeVC);
+        }
 
-        id = DB.searchLoginID(email);
         return id;
     }
 
@@ -181,6 +198,24 @@ public class DB {
     public static void studentInsert(String id, String fullName, int classYear, char classLetter) {
         String update = "INSERT INTO `dnevnik`.`students` (`id`,`full_name`,`class_year`,`class_letter`) VALUES (" + id + ",\"" + fullName + "\"," + classYear + ",'" + classLetter + "');";
         DB.doUpdate(update);
+    }
+
+    public static String encodePassword(String password){
+        return insertCharAt(password, '_', 0);
+    }
+
+    public static String decodePassword(String password){
+        return removeCharAt(password, 0);
+    }
+
+    public static String removeCharAt(String str, int index) {
+        if (index < 0 || index >= str.length()) return str;
+        return str.substring(0, index) + str.substring(index + 1);
+    }
+
+    public static String insertCharAt(String str, char c, int index) {
+        if (index < 0 || index > str.length()) return str;
+        return str.substring(0, index) + c + str.substring(index);
     }
 }
 
