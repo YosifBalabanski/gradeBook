@@ -63,7 +63,7 @@ public class DB {
         System.out.println("--------------query results:---------------");
         while (rs.next()) {
             for (int i = 1; i <= columnCount; i++) {
-                String columnName = rsmd.getColumnName(i);
+                String columnName = rsmd.getColumnLabel(i); // Use getColumnLabel!
                 String columnValue = rs.getString(i);
                 System.out.print(columnName + ": " + columnValue + "  ");
             }
