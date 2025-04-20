@@ -12,7 +12,7 @@ public class StudentMenu {
 
             // SQL query with concatenated parameters
             String query = """
-            SELECT tt.id, d.name, tt.period, s.name AS subject_name
+            SELECT tt.id, d.day_name, tt.period, s.subject_name
             FROM time_tables tt
             JOIN days d ON tt.day_id = d.id
             JOIN subjects s ON tt.subject_id = s.id
@@ -70,15 +70,13 @@ public class StudentMenu {
 
     public static void reportCard(String studentEmail) throws SQLException {
         String id = DB.searchLoginID(studentEmail);
-        String query = "SELECT g.date,s.name AS subject,g.grade FROM grades g JOIN subjects s ON g.subject_id = s.id WHERE g.student_id = " + id + ";";
-        DB.printQuery(query);
+        DB.printQuery("SELECT g.date,s.subject_name AS subject,g.grade FROM grades g JOIN subjects s ON g.subject_id = s.id WHERE g.student_id = " + id + ";");
     }
 
 
     public static void viewFeedback(String studentEmail) throws SQLException {
         String id = DB.searchLoginID(studentEmail);
-        String query = "SELECT c.date,t.full_name AS teacher,c.feedback FROM comments c JOIN teachers t ON c.teacher_id = t.id WHERE c.student_id = " + id + ";";
-        DB.printQuery(query);
+        DB.printQuery("SELECT c.date,t.full_name AS teacher,c.feedback FROM comments c JOIN teachers t ON c.teacher_id = t.id WHERE c.student_id = " + id + ";");
     }
 
     public static void attendanceReport(String studentEmail) throws SQLException {

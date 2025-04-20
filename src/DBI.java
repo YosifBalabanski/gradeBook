@@ -10,7 +10,7 @@ public class DBI {
         System.out.println("Enter your password: ");
         password = scanner.nextLine();
 
-        DB.login(email, password);
+        Login.login(email, password);
     }
 
     public static void registerInterface() throws SQLException {
@@ -85,7 +85,7 @@ public class DBI {
                     if(!passwordConfirm.equals(password)) i++;
                 }
             }
-            DB.register(vCode, email, password,fullName,role, classYear, classLetter);
+            Registration.register(vCode, email, password,fullName,role, classYear, classLetter);
         }else{
             System.out.println("Your verification code is wrong or doesn't exist");
         }
@@ -117,10 +117,10 @@ public class DBI {
                 System.out.println("Exiting the admin menu");
                 condition = false;
             } else if(answer == 1){
-                AdminMenu.customQueryInterface();
+                AdminMenu.makeQuery();
 
             } else if (answer == 2) {
-                AdminMenu.customUpdateInterface();
+                AdminMenu.makeUpdate();
 
             } else if (answer == 3) {
                 System.out.println("****////--Start--////****");
@@ -188,7 +188,7 @@ public class DBI {
     }
 
     public static void directorMenu(String name, String email) throws SQLException {
-        System.out.println("you have called the director menu");
+        System.out.println("Welcome Director " + name);
         Scanner scanner = new Scanner(System.in);
         boolean condition = true;
 
@@ -240,6 +240,7 @@ public class DBI {
     }
 
     public static void teacherMenu(String name, String email) throws SQLException {
+        System.out.println("Welcome Teacher " + name);
         Scanner scanner = new Scanner(System.in);
         boolean condition = true;
 
@@ -264,7 +265,7 @@ public class DBI {
                 condition = false;
 
             } else if (answer == 1) {
-                TeacherMenu.customQueryE();
+                TeacherMenu.makeQuery();
 
             } else if (answer == 2) {
                 TeacherMenu.viewTimeTable();
@@ -322,7 +323,7 @@ public class DBI {
     }
 
     public static void studentMenu(String name, String email, String fullClass) throws SQLException {
-        System.out.println("Welcome " + name);
+        System.out.println("Welcome " + name + " from " + fullClass);
         Scanner scanner = new Scanner(System.in);
         boolean condition = true;
 

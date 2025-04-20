@@ -34,12 +34,12 @@ public class DirectorMenu {
         String fullClass = scanner.nextLine();
         int classYear = Integer.parseInt(fullClass.substring(0, fullClass.length() - 1));
         char classLetter = fullClass.charAt(fullClass.length() - 1);
-        DB.printQuery("select id, name from days;");
+        DB.printQuery("select id, day_name from days;");
         System.out.println("Enter the day id: ");
         String dayID = scanner.nextLine();
         System.out.println("Enter the period(1-8): ");
         String period = scanner.nextLine();
-        DB.printQuery("select id, name as subject name from subjects;");
+        DB.printQuery("select id, subject_name from subjects;");
         System.out.println("Enter the subject ID for this period: ");
         int subjectID = scanner.nextInt();
         scanner.nextInt();
@@ -67,11 +67,11 @@ public class DirectorMenu {
             int periodCount = scanner.nextInt();
             scanner.nextLine();
             for (int j = 0; j < periodCount; j++) {
-                DB.printQuery("select id, name as subject name from subjects;");
+                DB.printQuery("select id, subject_name from subjects;");
                 System.out.println("Enter the subject ID for this period: ");
                 int subjectID = scanner.nextInt();
                 scanner.nextInt();
-                DB.printQuery("select t.id as tid, t.full_name as name, s.name as subject from teachers t join teacher_subjects ts on ts.teacher_id = t.id join subjects s on s.id = ts.subject_id;");
+                DB.printQuery("select t.id as tid, t.full_name as name, s.subject_name as subject from teachers t join teacher_subjects ts on ts.teacher_id = t.id join subjects s on s.id = ts.subject_id;");
                 System.out.println("Enter the id of the teacher for this lesson: ");
                 String teacherID = scanner.nextLine();
                 String update = "INSERT INTO `dnevnik`.`time_tables` (`period`,`class_year`,`class_letter`,`subject_id`,`day_id`,`teacher_id`) VALUES('" + j + 1 + "','" + classYear + "','" + classLetter + "','" + subjectID + "','" + i + 1 + "','" + teacherID + "');";

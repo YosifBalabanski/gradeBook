@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class TeacherMenu {
 
 
-    public static void customQueryE() throws SQLException {
+    public static void makeQuery() throws SQLException {
         System.out.println("Enter a query: ");
         Scanner scanner = new Scanner(System.in);
         String query = scanner.nextLine();
@@ -19,15 +19,13 @@ public class TeacherMenu {
     public static void viewClass(String fullClass) throws SQLException {
         int classYear = Integer.parseInt(fullClass.substring(0, fullClass.length() - 1));
         char classLetter = fullClass.charAt(fullClass.length() - 1);
-        String query = "SELECT * FROM students s WHERE s.class_year = '" + classYear + "' AND s.class_letter = '" + classLetter + "';" ;
-        DB.printQuery(query);
+        DB.printQuery("SELECT * FROM students s WHERE s.class_year = '" + classYear + "' AND s.class_letter = '" + classLetter + "';");
     }
 
 
     public static void grade(String date, double grade, String subjectName, String studentID, String teacherEmail) throws SQLException {
         String teacherID = DB.searchLoginID(teacherEmail), subjectID = DB.searchSubjectID(subjectName);
-        String update = "INSERT INTO `dnevnik`.`grades`(`date`,`grade`,`subject_id`,`student_id`,`teacher_id`) VALUES ('" + date + "', '" + grade + "', '" + subjectID + "', '" + studentID + "', '" + teacherID + "');";
-        DB.doUpdate(update);
+        DB.doUpdate("INSERT INTO `dnevnik`.`grades`(`date`,`grade`,`subject_id`,`student_id`,`teacher_id`) VALUES ('" + date + "', '" + grade + "', '" + subjectID + "', '" + studentID + "', '" + teacherID + "');");
     }
 
     public static void takeAttendance(String date) throws SQLException {
@@ -75,10 +73,7 @@ public class TeacherMenu {
     }
 
     public static void sendFeedback(String date, String comment, String teacherEmail, String studentID) throws SQLException {
-        String teacherID = DB.searchLoginID(teacherEmail);
-
-        String update = "INSERT INTO `dnevnik`.`comments` (`date`,`feedback`,`student_id`,`teacher_id`) VALUES ('" + date + "','" + comment + "','" + studentID + "','" + teacherID + "');";
-        DB.doUpdate(update);
+        DB.doUpdate("INSERT INTO `dnevnik`.`comments` (`date`,`feedback`,`student_id`,`teacher_id`) VALUES ('" + date + "','" + comment + "','" + studentID + "','" + DB.searchLoginID(teacherEmail) + "');");
     }
 
     public static void showUsers() throws SQLException {
