@@ -12,7 +12,7 @@ public class StudentMenu {
 
             // SQL query with concatenated parameters
             String query = """
-            SELECT d.name, tt.period, s.name AS subject_name
+            SELECT tt.id, d.name, tt.period, s.name AS subject_name
             FROM time_tables tt
             JOIN days d ON tt.day_id = d.id
             JOIN subjects s ON tt.subject_id = s.id
@@ -39,7 +39,9 @@ public class StudentMenu {
                 // Add to the correct day list
                 timetable.get(day).add(period + ": " + subject);
             }
-
+            System.out.println("--------------");
+            System.out.println("Class: " + fullClass + " TT:");
+            System.out.println("--------------");
             // Print the full week
             for (String day : daysOfWeek) {
                 System.out.println("-- " + day + " --");

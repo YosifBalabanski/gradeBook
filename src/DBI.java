@@ -201,6 +201,9 @@ public class DBI {
             System.out.println("To create a timetable for a class, Press 4: ");
             System.out.println("To create a verification code, Press 5: ");
             System.out.println("To assign a teacher to a subject, Press 6: ");
+            System.out.println("To make a single time table entry, Press 7: ");
+            System.out.println("To view a specific time table, Press 8: ");
+            System.out.println("To remove a time table entry, Press 9: ");
             System.out.print("answer: ");
             int answer = scanner.nextInt();
             scanner.nextLine();
@@ -223,6 +226,15 @@ public class DBI {
                 DirectorMenu.createVC();
             } else if (answer == 6) {
                 DirectorMenu.assignTeacherToSubject();
+            } else if (answer == 7) {
+                DirectorMenu.makeTimeTableEntry();
+            } else if (answer == 8) {
+
+                DirectorMenu.viewTimeTable();
+            } else if (answer == 9) {
+                System.out.println("Please enter the id of the time table entry you would like to remove: ");
+                String ttID = scanner.nextLine();
+                DirectorMenu.removeTimeTableEntry(ttID);
             }
         }
     }

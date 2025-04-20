@@ -20,6 +20,36 @@ public class DirectorMenu {
         DB.printQuery(query);
     }
 
+    public static void viewTimeTable(){
+        StudentMenu.timeTable();
+    }
+
+    public static void removeTimeTableEntry(String ttEntryToRemoveID){
+        DB.doUpdate("delete from time_tables where id = '" + ttEntryToRemoveID + "';");
+    }
+
+    public static void makeTimeTableEntry() throws SQLException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the specific class:");
+        String fullClass = scanner.nextLine();
+        int classYear = Integer.parseInt(fullClass.substring(0, fullClass.length() - 1));
+        char classLetter = fullClass.charAt(fullClass.length() - 1);
+        DB.printQuery("select id, name from days;");
+        System.out.println("Enter the day id: ");
+        String dayID = scanner.nextLine();
+        System.out.println("Enter the period(1-8): ");
+        String period = scanner.nextLine();
+        DB.printQuery("select id, name as subject name from subjects;");
+        System.out.println("Enter the subject ID for this period: ");
+        int subjectID = scanner.nextInt();
+        scanner.nextInt();
+        DB.printQuery("select t.id as tid, t.full_name as name, s.name as subject from teachers t join teacher_subjects ts on ts.teacher_id = t.id join subjects s on s.id = ts.subject_id;");
+        System.out.println("Enter the id of the teacher for this lesson: ");
+        String teacherID = scanner.nextLine();
+
+        String update = "INSERT INTO `dnevnik`.`time_tables` (`period`,`class_year`,`class_letter`,`subject_id`,`day_id`,`teacher_id`) VALUES('" + period + "','" + classYear + "','" + classLetter + "','" + subjectID + "','" + dayID + "','" + teacherID + "');";
+        DB.doUpdate(update);
+    }
 
     // Needs polishing
     public static void makeTimeTable() throws SQLException {
@@ -31,17 +61,19 @@ public class DirectorMenu {
         System.out.println("Enter the number of days they will be attending school:");
         int nOfSchoolDays = scanner.nextInt();
         scanner.nextLine();
-        DB.printQuery("select t.id as tid, t.full_name as name, s.name as subject from teachers t join teacher_subjects ts on ts.teacher_id = t.id join subjects s on s.id = ts.subject_id;");
+
         for (int i = 0; i < nOfSchoolDays; i++) {
             System.out.println("Enter the number of periods:");
             int periodCount = scanner.nextInt();
             scanner.nextLine();
             for (int j = 0; j < periodCount; j++) {
-                System.out.println("Enter the subject for this period: ");
-                String subjectName = scanner.nextLine(), subjectID = DB.searchSubjectID(subjectName);
+                DB.printQuery("select id, name as subject name from subjects;");
+                System.out.println("Enter the subject ID for this period: ");
+                int subjectID = scanner.nextInt();
+                scanner.nextInt();
+                DB.printQuery("select t.id as tid, t.full_name as name, s.name as subject from teachers t join teacher_subjects ts on ts.teacher_id = t.id join subjects s on s.id = ts.subject_id;");
                 System.out.println("Enter the id of the teacher for this lesson: ");
                 String teacherID = scanner.nextLine();
-
                 String update = "INSERT INTO `dnevnik`.`time_tables` (`period`,`class_year`,`class_letter`,`subject_id`,`day_id`,`teacher_id`) VALUES('" + j + 1 + "','" + classYear + "','" + classLetter + "','" + subjectID + "','" + i + 1 + "','" + teacherID + "');";
                 DB.doUpdate(update);
             }
