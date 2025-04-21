@@ -1,8 +1,8 @@
 import java.sql.*;
 import java.util.Scanner;
 
-public class DBI {
-    public static void loginInterface() throws SQLException {
+public class Menus {
+    public static void loginMenu() throws SQLException {
         Scanner scanner = new Scanner(System.in);
         String email, password;
         System.out.println("Enter your email: ");
@@ -13,7 +13,7 @@ public class DBI {
         Login.login(email, password);
     }
 
-    public static void registerInterface() throws SQLException {
+    public static void registerMenu() throws SQLException {
 
         String vCode, role = "default";
         char classLetter = 0;
@@ -162,25 +162,65 @@ public class DBI {
                 int subAnswer = scanner.nextInt();
                 scanner.nextLine();
                 if (subAnswer == 1) {
-                    System.out.println("Enter the name of a director: ");
-                    String directorName = scanner.nextLine();
-                    System.out.println("Enter the email of a director: ");
-                    String directorEmail = scanner.nextLine();
-                    directorMenu(directorName, directorEmail);
+                    ResultSet rs = DB.doQuery("SELECT li.email, d.full_name as name  FROM login_info li JOIN directors d ON li.id = d.id;");
+                    DB.printResultSet(rs);
+                    boolean flag = true;
+                    while(flag){
+                        rs = DB.doQuery("SELECT li.email, d.full_name as name  FROM login_info li JOIN directors d ON li.id = d.id;");
+                        System.out.println("Enter the name of a director: ");
+                        String directorName = scanner.nextLine();
+                        System.out.println("Enter the email of a director: ");
+                        String directorEmail = scanner.nextLine();
+                        while(rs.next()){
+                            if(directorEmail.equals(rs.getString("email")) && directorName.equals(rs.getString("name"))){
+                                flag = false;
+                                directorMenu(directorName, directorEmail);
+                            }
+                        }
+                    }
                 } else if (subAnswer == 2) {
-                    System.out.println("Enter the name of a teacher: ");
-                    String teacherName = scanner.nextLine();
-                    System.out.println("Enter the email of a teacher: ");
-                    String teacherEmail = scanner.nextLine();
-                    teacherMenu(teacherName, teacherEmail);
+                    ResultSet rs = DB.doQuery("SELECT li.email, t.full_name as name  FROM login_info li JOIN teachers t ON li.id = t.id;");
+                    DB.printResultSet(rs);
+                    boolean flag = true;
+                    while(flag){
+                        rs = DB.doQuery("SELECT li.email, t.full_name as name  FROM login_info li JOIN teachers t ON li.id = t.id;");
+                        System.out.println("Enter the name of a teacher: ");
+                        String teacherName = scanner.nextLine();
+                        System.out.println("Enter the email of a teacher: ");
+                        String teacherEmail = scanner.nextLine();
+                        while(rs.next()){
+                            if(teacherEmail.equals(rs.getString("email")) && teacherName.equals(rs.getString("name"))){
+                                flag = false;
+                                teacherMenu(teacherName, teacherEmail);
+                            }
+                        }
+                    }
+
+
                 } else if (subAnswer == 3) {
-                    System.out.println("Enter the name of a student: ");
-                    String studentName = scanner.nextLine();
-                    System.out.println("Enter the email of a student: ");
-                    String studentEmail = scanner.nextLine();
-                    System.out.println("Enter the class of the student: ");
-                    String fullClass = scanner.nextLine();
-                    studentMenu(studentName, studentEmail, fullClass);
+                    ResultSet rs = DB.doQuery("SELECT li.email, st.full_name AS name, class_year AS year, class_letter AS letter FROM login_info li JOIN students st ON li.id = st.id;");
+                    DB.printResultSet(rs);
+                    boolean flag = true;
+                    while (flag){
+                        rs = DB.doQuery("SELECT li.email, st.full_name AS name, class_year AS year, class_letter AS letter FROM login_info li JOIN students st ON li.id = st.id;");
+                        System.out.println("Enter the name of a student: ");
+                        String studentName = scanner.nextLine();
+                        System.out.println("Enter the email of a student: ");
+                        String studentEmail = scanner.nextLine();
+                        System.out.println("Enter the class of the student: ");
+                        String fullClass = scanner.nextLine();
+                        String classYear = fullClass.substring(0, fullClass.length() - 1);
+                        String classLetter = fullClass.substring(fullClass.length() - 1);
+
+                        while(rs.next()){
+                            if(studentEmail.equals(rs.getString("email")) && studentName.equals(rs.getString("name")) && classYear.equals(rs.getString("year")) && classLetter.equals(rs.getString("letter"))){
+                                flag = false;
+                                studentMenu(studentName, studentEmail, fullClass);
+                            }
+                        }
+                    }
+
+
                 }
             }
 
@@ -278,13 +318,15 @@ public class DBI {
             } else if (answer == 4) {
                 System.out.println("Enter the year(YYYY): ");
                 String dateYear = scanner.nextLine();
-                System.out.println("Enter the year(MM): ");
+                System.out.println("Enter the month(MM): ");
                 String dateMonth = scanner.nextLine();
-                System.out.println("Enter the year(DD): ");
+                System.out.println("Enter the day(DD): ");
                 String dateDay = scanner.nextLine();
                 String date = dateYear + "-" + dateMonth + "-" + dateDay;
+                DB.printSubjects();
                 System.out.println("Enter the subject name: ");
                 String subjectName = scanner.nextLine();
+                DB.printQuery("SELECT * FROM students");
                 System.out.println("Enter the student's id: ");
                 String studentID = scanner.nextLine();
                 double grade;
@@ -296,9 +338,9 @@ public class DBI {
             } else if (answer == 5) {
                 System.out.println("Enter the year(YYYY): ");
                 String dateYear = scanner.nextLine();
-                System.out.println("Enter the year(MM): ");
+                System.out.println("Enter the month(MM): ");
                 String dateMonth = scanner.nextLine();
-                System.out.println("Enter the year(DD): ");
+                System.out.println("Enter the day(DD): ");
                 String dateDay = scanner.nextLine();
                 String date = dateYear + "-" + dateMonth + "-" + dateDay;
                 TeacherMenu.takeAttendance(date);

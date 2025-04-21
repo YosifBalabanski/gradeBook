@@ -35,6 +35,7 @@ public class TeacherMenu {
         String fullClass = scanner.nextLine();
         int classYear = Integer.parseInt(fullClass.substring(0, fullClass.length() - 1));
         char classLetter = fullClass.charAt(fullClass.length() - 1);
+        DB.printSubjects();
         System.out.println("Enter the subject: ");
         String subjectName = scanner.nextLine();
         String subjectID = DB.searchSubjectID(subjectName);

@@ -26,7 +26,7 @@ public class Login {
                     if (email.equals(rs.getString("email"))) {
                         String name = rs.getString("full_name");
                         String fullClass = rs.getString("class_year") + rs.getString("class_letter");
-                        DBI.studentMenu(name, email, fullClass);
+                        Menus.studentMenu(name, email, fullClass);
                     }
                 }
             }
@@ -36,7 +36,7 @@ public class Login {
                 while (rs.next()) {
                     if (email.equals(rs.getString("email"))) {
                         String name = rs.getString("full_name");
-                        DBI.teacherMenu(name, email);
+                        Menus.teacherMenu(name, email);
                     }
                 }
             }
@@ -46,7 +46,7 @@ public class Login {
                 while (rs.next()) {
                     if (email.equals(rs.getString("email"))) {
                         String name = rs.getString("full_name");
-                        DBI.directorMenu(name, email);
+                        Menus.directorMenu(name, email);
                     }
                 }
             }
@@ -56,7 +56,7 @@ public class Login {
                 while (rs.next()) {
                     if (email.equals(rs.getString("email"))) {
                         String name = rs.getString("full_name");
-                        DBI.adminMenu(name, email);
+                        Menus.adminMenu(name, email);
                     }
                 }
             }

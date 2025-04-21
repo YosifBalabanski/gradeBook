@@ -55,7 +55,7 @@ public class DB {
         String id = "0";
         try (ResultSet rs = doQuery(query)) {
             while (rs.next()) {
-                if (subjectName.equals(rs.getString("name"))) {
+                if (subjectName.equals(rs.getString("subject_name"))) {
                     id = rs.getString("id");
                 }
             }
@@ -80,6 +80,27 @@ public class DB {
         }
 
     }
+
+    public static void printResultSet(ResultSet rs) throws SQLException {
+        ResultSetMetaData rsmd = rs.getMetaData(); // To get column names and count
+        int columnCount = rsmd.getColumnCount();
+        System.out.println("--------------query results:---------------");
+        while (rs.next()) {
+            for (int i = 1; i <= columnCount; i++) {
+                String columnName = rsmd.getColumnLabel(i); // Use getColumnLabel!
+                String columnValue = rs.getString(i);
+                System.out.print(columnName + ": " + columnValue + "  ");
+            }
+            System.out.println(); // New line after each row
+        }
+        System.out.println("-------------------------------------------");
+    }
+
+    public static void printSubjects() throws SQLException {
+        printQuery("SELECT id, subject_name FROM subjects ORDER BY id ASC");
+    }
+
+
 
 
 

@@ -99,15 +99,15 @@ public class StudentMenu {
         query = "SELECT * FROM subjects ORDER BY id ASC";
         rs = DB.doQuery(query);
         while(rs.next()){
-            subjects[i] = rs.getString("name");
+            subjects[i] = rs.getString("subject_name");
             i++;
         }
 
         for (i = 0; i < n; i++) {
-            query = "SELECT COUNT(*) AS attendance_count FROM attendance WHERE student_id = '" + studentID + "' AND subject_id = '" + subjectIDs[i] + "';";
+            query = "SELECT count(*) AS attendance_count FROM attendance WHERE student_id = '" + studentID + "' AND subject_id = '" + subjectIDs[i] + "';";
             rs = DB.doQuery(query);
             while(rs.next()){
-                subjectAttendance[i] = rs.getInt("count(*)");
+                subjectAttendance[i] = rs.getInt("attendance_count");
             }
         }
 

@@ -24,7 +24,7 @@ public class AdminMenu {
     }
 
     public static void addUser() throws SQLException {
-        DBI.registerInterface();
+        Menus.registerMenu();
     }
 
     public static void removeUserByID(String id){

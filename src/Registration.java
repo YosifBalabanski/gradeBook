@@ -1,4 +1,6 @@
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Registration {
     public static void register(String vCode, String email, String password, String fullName, String role, int classYear, char classLetter) throws SQLException {
