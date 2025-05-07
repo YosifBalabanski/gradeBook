@@ -4,7 +4,7 @@ import java.sql.SQLException;
 public class Login {
     public static void login(String email, String password) throws SQLException {
         String query = "SELECT * FROM login_info";
-        ResultSet rs = DB.doQuery(query);
+        ResultSet rs = Core.doQuery(query);
         String role = "none";
         while (rs.next()) {
             try {
@@ -21,7 +21,7 @@ public class Login {
         else {
             if (role.equals("student")) {
                 query = "SELECT * FROM login_info INNER JOIN students ON login_info.id = students.id WHERE login_info.role = \"student\";";
-                rs = DB.doQuery(query);
+                rs = Core.doQuery(query);
                 while (rs.next()) {
                     if (email.equals(rs.getString("email"))) {
                         String name = rs.getString("full_name");
@@ -32,7 +32,7 @@ public class Login {
             }
             if (role.equals("teacher")) {
                 query = "SELECT * FROM login_info INNER JOIN teachers ON login_info.id = teachers.id WHERE login_info.role = \"teacher\";";
-                rs = DB.doQuery(query);
+                rs = Core.doQuery(query);
                 while (rs.next()) {
                     if (email.equals(rs.getString("email"))) {
                         String name = rs.getString("full_name");
@@ -42,7 +42,7 @@ public class Login {
             }
             if (role.equals("director")) {
                 query = "SELECT * FROM login_info INNER JOIN directors ON login_info.id = directors.id WHERE login_info.role = \"director\";";
-                rs = DB.doQuery(query);
+                rs = Core.doQuery(query);
                 while (rs.next()) {
                     if (email.equals(rs.getString("email"))) {
                         String name = rs.getString("full_name");
@@ -52,7 +52,7 @@ public class Login {
             }
             if (role.equals("admin")) {
                 query = "SELECT * FROM login_info INNER JOIN admins ON login_info.id = admins.id WHERE login_info.role = \"admin\";";
-                rs = DB.doQuery(query);
+                rs = Core.doQuery(query);
                 while (rs.next()) {
                     if (email.equals(rs.getString("email"))) {
                         String name = rs.getString("full_name");

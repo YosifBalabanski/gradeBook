@@ -20,7 +20,7 @@ public class StudentMenu {
             ORDER BY d.id, tt.period;
         """.formatted(classYear, classLetter);
 
-            ResultSet rs = DB.doQuery(query);
+            ResultSet rs = Core.doQuery(query);
 
             // Use LinkedHashMap to preserve order of days
             Map<String, List<String>> timetable = new LinkedHashMap<>();
@@ -69,19 +69,19 @@ public class StudentMenu {
     }
 
     public static void reportCard(String studentEmail) throws SQLException {
-        String id = DB.searchLoginID(studentEmail);
-        DB.printQuery("SELECT g.date,s.subject_name AS subject,g.grade FROM grades g JOIN subjects s ON g.subject_id = s.id WHERE g.student_id = " + id + ";");
+        String id = Core.searchLoginID(studentEmail);
+        Core.printQuery("SELECT g.date,s.subject_name AS subject,g.grade FROM grades g JOIN subjects s ON g.subject_id = s.id WHERE g.student_id = " + id + ";");
     }
 
 
     public static void viewFeedback(String studentEmail) throws SQLException {
-        String id = DB.searchLoginID(studentEmail);
-        DB.printQuery("SELECT c.date,t.full_name AS teacher,c.feedback FROM comments c JOIN teachers t ON c.teacher_id = t.id WHERE c.student_id = " + id + ";");
+        String id = Core.searchLoginID(studentEmail);
+        Core.printQuery("SELECT c.date,t.full_name AS teacher,c.feedback FROM comments c JOIN teachers t ON c.teacher_id = t.id WHERE c.student_id = " + id + ";");
     }
 
     public static void attendanceReport(String studentEmail) throws SQLException {
-        String studentID = DB.searchLoginID(studentEmail), query = "select count(*) from subjects;";
-        ResultSet rs = DB.doQuery(query);
+        String studentID = Core.searchLoginID(studentEmail), query = "select count(*) from subjects;";
+        ResultSet rs = Core.doQuery(query);
         int n = 0, i = 0;
         while(rs.next()){
             n = rs.getInt("count(*)");
@@ -97,7 +97,7 @@ public class StudentMenu {
 
         i = 0;
         query = "SELECT * FROM subjects ORDER BY id ASC";
-        rs = DB.doQuery(query);
+        rs = Core.doQuery(query);
         while(rs.next()){
             subjects[i] = rs.getString("subject_name");
             i++;
@@ -105,7 +105,7 @@ public class StudentMenu {
 
         for (i = 0; i < n; i++) {
             query = "SELECT count(*) AS attendance_count FROM attendance WHERE student_id = '" + studentID + "' AND subject_id = '" + subjectIDs[i] + "';";
-            rs = DB.doQuery(query);
+            rs = Core.doQuery(query);
             while(rs.next()){
                 subjectAttendance[i] = rs.getInt("attendance_count");
             }

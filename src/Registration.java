@@ -1,6 +1,4 @@
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Registration {
     public static void register(String vCode, String email, String password, String fullName, String role, int classYear, char classLetter) throws SQLException {
@@ -31,14 +29,14 @@ public class Registration {
         password = encodePassword(password);
         String removeVC = "DELETE FROM verification_codes WHERE code = '" + vCode + "';";
         String update = "INSERT INTO login_info (`email`,`password`,`role`) VALUES ('" + email + "', '" + password + "', '" + role + "');";
-        String id = DB.searchLoginID(email);
+        String id = Core.searchLoginID(email);
 
         if (!id.equals("0")) {
             System.out.println("Email already exists");
         } else {
-            DB.doUpdate(update);
-            id = DB.searchLoginID(email);
-            DB.doUpdate(removeVC);
+            Core.doUpdate(update);
+            id = Core.searchLoginID(email);
+            Core.doUpdate(removeVC);
         }
 
         return id;
@@ -46,22 +44,22 @@ public class Registration {
 
     public static void directorInsert(String id, String fullName) {
         String update = "INSERT INTO directors (`id`,`full_name`) VALUES (" + id + ", \"" + fullName + "\")";
-        DB.doUpdate(update);
+        Core.doUpdate(update);
     }
 
     public static void teacherInsert(String id, String fullName) {
         String update = "INSERT INTO teachers (`id`,`full_name`) VALUES (" + id + ", \"" + fullName + "\")";
-        DB.doUpdate(update);
+        Core.doUpdate(update);
     }
 
     public static void adminInsert(String id, String fullName) {
         String update = "INSERT INTO admins (`id`,`full_name`) VALUES (" + id + ", \"" + fullName + "\")";
-        DB.doUpdate(update);
+        Core.doUpdate(update);
     }
 
     public static void studentInsert(String id, String fullName, int classYear, char classLetter) {
         String update = "INSERT INTO students (`id`,`full_name`,`class_year`,`class_letter`) VALUES (" + id + ",\"" + fullName + "\"," + classYear + ",'" + classLetter + "');";
-        DB.doUpdate(update);
+        Core.doUpdate(update);
     }
 
     public static String encodePassword(String password) {

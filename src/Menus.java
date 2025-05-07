@@ -25,7 +25,7 @@ public class Menus {
         vCode = scanner.nextLine();
 
         String query = "SELECT * FROM verification_codes";
-        ResultSet rs = DB.doQuery(query);
+        ResultSet rs = Core.doQuery(query);
 
         try{
             while(rs.next()) {
@@ -160,11 +160,11 @@ public class Menus {
                 int subAnswer = scanner.nextInt();
                 scanner.nextLine();
                 if (subAnswer == 1) {
-                    ResultSet rs = DB.doQuery("SELECT li.email, d.full_name as name  FROM login_info li JOIN directors d ON li.id = d.id;");
-                    DB.printResultSet(rs);
+                    ResultSet rs = Core.doQuery("SELECT li.email, d.full_name as name  FROM login_info li JOIN directors d ON li.id = d.id;");
+                    Core.printResultSet(rs);
                     boolean flag = true;
                     while(flag){
-                        rs = DB.doQuery("SELECT li.email, d.full_name as name  FROM login_info li JOIN directors d ON li.id = d.id;");
+                        rs = Core.doQuery("SELECT li.email, d.full_name as name  FROM login_info li JOIN directors d ON li.id = d.id;");
                         System.out.println("Enter the name of a director: ");
                         String directorName = scanner.nextLine();
                         System.out.println("Enter the email of a director: ");
@@ -177,11 +177,11 @@ public class Menus {
                         }
                     }
                 } else if (subAnswer == 2) {
-                    ResultSet rs = DB.doQuery("SELECT li.email, t.full_name as name  FROM login_info li JOIN teachers t ON li.id = t.id;");
-                    DB.printResultSet(rs);
+                    ResultSet rs = Core.doQuery("SELECT li.email, t.full_name as name  FROM login_info li JOIN teachers t ON li.id = t.id;");
+                    Core.printResultSet(rs);
                     boolean flag = true;
                     while(flag){
-                        rs = DB.doQuery("SELECT li.email, t.full_name as name  FROM login_info li JOIN teachers t ON li.id = t.id;");
+                        rs = Core.doQuery("SELECT li.email, t.full_name as name  FROM login_info li JOIN teachers t ON li.id = t.id;");
                         System.out.println("Enter the name of a teacher: ");
                         String teacherName = scanner.nextLine();
                         System.out.println("Enter the email of a teacher: ");
@@ -196,11 +196,11 @@ public class Menus {
 
 
                 } else if (subAnswer == 3) {
-                    ResultSet rs = DB.doQuery("SELECT li.email, st.full_name AS name, class_year AS year, class_letter AS letter FROM login_info li JOIN students st ON li.id = st.id;");
-                    DB.printResultSet(rs);
+                    ResultSet rs = Core.doQuery("SELECT li.email, st.full_name AS name, class_year AS year, class_letter AS letter FROM login_info li JOIN students st ON li.id = st.id;");
+                    Core.printResultSet(rs);
                     boolean flag = true;
                     while (flag){
-                        rs = DB.doQuery("SELECT li.email, st.full_name AS name, class_year AS year, class_letter AS letter FROM login_info li JOIN students st ON li.id = st.id;");
+                        rs = Core.doQuery("SELECT li.email, st.full_name AS name, class_year AS year, class_letter AS letter FROM login_info li JOIN students st ON li.id = st.id;");
                         System.out.println("Enter the name of a student: ");
                         String studentName = scanner.nextLine();
                         System.out.println("Enter the email of a student: ");
@@ -321,10 +321,10 @@ public class Menus {
                 System.out.println("Enter the day(DD): ");
                 String dateDay = scanner.nextLine();
                 String date = dateYear + "-" + dateMonth + "-" + dateDay;
-                DB.printSubjects();
+                Core.printSubjects();
                 System.out.println("Enter the subject name: ");
                 String subjectName = scanner.nextLine();
-                DB.printQuery("SELECT * FROM students");
+                Core.printQuery("SELECT * FROM students");
                 System.out.println("Enter the student's id: ");
                 String studentID = scanner.nextLine();
                 double grade;

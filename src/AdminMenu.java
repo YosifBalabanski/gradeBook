@@ -8,19 +8,19 @@ public class AdminMenu {
         System.out.println("Enter a query: ");
         Scanner scanner = new Scanner(System.in);
         String query = scanner.nextLine();
-        DB.printQuery(query);
+        Core.printQuery(query);
     }
 
     public static void makeUpdate(){
         System.out.println("Enter a query: ");
         Scanner scanner = new Scanner(System.in);
         String update = scanner.nextLine();
-        DB.doUpdate(update);
+        Core.doUpdate(update);
     }
 
     public static void showUsers() throws SQLException {
         String query = "SELECT login_info.id, login_info.email, login_info.role, directors.full_name FROM login_info INNER JOIN directors ON login_info.id = directors.id WHERE login_info.role = 'director' UNION ALL SELECT login_info.id, login_info.email, login_info.role, teachers.full_name FROM login_info INNER JOIN teachers ON login_info.id = teachers.id WHERE login_info.role = 'teacher' UNION ALL SELECT login_info.id, login_info.email, login_info.role, students.full_name FROM login_info INNER JOIN students ON login_info.id = students.id WHERE login_info.role = 'student' UNION ALL SELECT login_info.id, login_info.email, login_info.role, admins.full_name FROM login_info INNER JOIN admins ON login_info.id = admins.id WHERE login_info.role = 'admin';";
-        DB.printQuery(query);
+        Core.printQuery(query);
     }
 
     public static void addUser() throws SQLException {
@@ -28,11 +28,11 @@ public class AdminMenu {
     }
 
     public static void removeUserByID(String id){
-        DB.doUpdate("DELETE FROM login_info WHERE id = '" + id + "';");
+        Core.doUpdate("DELETE FROM login_info WHERE id = '" + id + "';");
     }
 
     public static void removeUserByEmail(String email) throws SQLException {
-        removeUserByID(DB.searchLoginID(email));
+        removeUserByID(Core.searchLoginID(email));
     }
 
     public static void createVC(){
@@ -42,7 +42,7 @@ public class AdminMenu {
         role = scanner.nextLine();
         System.out.println("Please enter a verification Code");
         vCode = scanner.nextLine();
-        DB.doUpdate("INSERT INTO verification_codes (`role`,`code`) VALUES ('" + role + "' , '" + vCode + "');");
+        Core.doUpdate("INSERT INTO verification_codes (`role`,`code`) VALUES ('" + role + "' , '" + vCode + "');");
     }
 
     public static void generateVCs(String role, int n, int length){
@@ -52,7 +52,7 @@ public class AdminMenu {
         }
         for (int i = 0; i < n; i++) {
             String update = "INSERT INTO verification_codes (`role`,`code`) VALUES ('" + role + "' , '" + vCode[i] + "');";
-            DB.doUpdate(update);
+            Core.doUpdate(update);
         }
     }
 
