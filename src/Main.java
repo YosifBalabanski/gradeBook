@@ -8,6 +8,8 @@ public class Main {
         int answer;
         boolean flag = true;
 
+
+
         while(flag){
             System.out.println("to log in press 0: ");
             System.out.println("to register press 1:");

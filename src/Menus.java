@@ -147,9 +147,7 @@ public class Menus {
                 roleToGen = scanner.nextLine();
                 System.out.println("Please enter the number of codes you would like to generate: ");
                 numberOfVCs = scanner.nextInt();
-                System.out.println("Please enter the length of each verification code: ");
-                lengthOfVCs = scanner.nextInt();
-                AdminMenu.generateVCs(roleToGen, numberOfVCs, lengthOfVCs);
+                AdminMenu.generateVCs(roleToGen, numberOfVCs, 8);
 
             } else if (answer == 8) {
                 AdminMenu.showUsers();

@@ -30,7 +30,7 @@ public class Registration {
     public static String loginInsert(String vCode, String email, String password, String role) throws SQLException {
         password = encodePassword(password);
         String removeVC = "DELETE FROM verification_codes WHERE code = '" + vCode + "';";
-        String update = "INSERT INTO `dnevnik`.`login_info` (`email`,`password`,`role`) VALUES ('" + email + "', '" + password + "', '" + role + "');";
+        String update = "INSERT INTO login_info (`email`,`password`,`role`) VALUES ('" + email + "', '" + password + "', '" + role + "');";
         String id = DB.searchLoginID(email);
 
         if (!id.equals("0")) {
@@ -45,22 +45,22 @@ public class Registration {
     }
 
     public static void directorInsert(String id, String fullName) {
-        String update = "INSERT INTO `dnevnik`.`directors` (`id`,`full_name`) VALUES (" + id + ", \"" + fullName + "\")";
+        String update = "INSERT INTO directors (`id`,`full_name`) VALUES (" + id + ", \"" + fullName + "\")";
         DB.doUpdate(update);
     }
 
     public static void teacherInsert(String id, String fullName) {
-        String update = "INSERT INTO `dnevnik`.`teachers` (`id`,`full_name`) VALUES (" + id + ", \"" + fullName + "\")";
+        String update = "INSERT INTO teachers (`id`,`full_name`) VALUES (" + id + ", \"" + fullName + "\")";
         DB.doUpdate(update);
     }
 
     public static void adminInsert(String id, String fullName) {
-        String update = "INSERT INTO `dnevnik`.`admins` (`id`,`full_name`) VALUES (" + id + ", \"" + fullName + "\")";
+        String update = "INSERT INTO admins (`id`,`full_name`) VALUES (" + id + ", \"" + fullName + "\")";
         DB.doUpdate(update);
     }
 
     public static void studentInsert(String id, String fullName, int classYear, char classLetter) {
-        String update = "INSERT INTO `dnevnik`.`students` (`id`,`full_name`,`class_year`,`class_letter`) VALUES (" + id + ",\"" + fullName + "\"," + classYear + ",'" + classLetter + "');";
+        String update = "INSERT INTO students (`id`,`full_name`,`class_year`,`class_letter`) VALUES (" + id + ",\"" + fullName + "\"," + classYear + ",'" + classLetter + "');";
         DB.doUpdate(update);
     }
 

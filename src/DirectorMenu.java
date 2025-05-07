@@ -47,7 +47,7 @@ public class DirectorMenu {
         System.out.println("Enter the id of the teacher for this lesson: ");
         String teacherID = scanner.nextLine();
 
-        String update = "INSERT INTO `dnevnik`.`time_tables` (`period`,`class_year`,`class_letter`,`subject_id`,`day_id`,`teacher_id`) VALUES('" + period + "','" + classYear + "','" + classLetter + "','" + subjectID + "','" + dayID + "','" + teacherID + "');";
+        String update = "INSERT INTO time_tables (`period`,`class_year`,`class_letter`,`subject_id`,`day_id`,`teacher_id`) VALUES('" + period + "','" + classYear + "','" + classLetter + "','" + subjectID + "','" + dayID + "','" + teacherID + "');";
         DB.doUpdate(update);
     }
 
@@ -74,7 +74,7 @@ public class DirectorMenu {
                 DB.printQuery("select t.id as tid, t.full_name as name, s.subject_name as subject from teachers t join teacher_subjects ts on ts.teacher_id = t.id join subjects s on s.id = ts.subject_id;");
                 System.out.println("Enter the id of the teacher for this lesson: ");
                 String teacherID = scanner.nextLine();
-                String update = "INSERT INTO `dnevnik`.`time_tables` (`period`,`class_year`,`class_letter`,`subject_id`,`day_id`,`teacher_id`) VALUES('" + (j + 1) + "','" + classYear + "','" + classLetter + "','" + subjectID + "','" + (i + 1) + "','" + teacherID + "');";
+                String update = "INSERT INTO time_tables (`period`,`class_year`,`class_letter`,`subject_id`,`day_id`,`teacher_id`) VALUES('" + (j + 1) + "','" + classYear + "','" + classLetter + "','" + subjectID + "','" + (i + 1) + "','" + teacherID + "');";
                 DB.doUpdate(update);
             }
         }
@@ -88,7 +88,7 @@ public class DirectorMenu {
         role = scanner.nextLine();
         System.out.println("Please enter a verification Code");
         vCode = scanner.nextLine();
-        String update = "INSERT INTO `dnevnik`.`verification_codes` (`role`,`code`) VALUES ('" + role + ", '" + vCode + "');";
+        String update = "INSERT INTO verification_codes (`role`,`code`) VALUES ('" + role + ", '" + vCode + "');";
         DB.doUpdate(update);
     }
 
@@ -99,7 +99,7 @@ public class DirectorMenu {
         System.out.println("Enter the subject name: ");
         String subjectName = scanner.nextLine();
         String subjectID = DB.searchSubjectID(subjectName);
-        String update = "INSERT INTO `dnevnik`.`teacher_subjects` (`teacher_id`,`subject_id`) VALUES('" + teacherID + "','" + subjectID + "');";
+        String update = "INSERT INTO teacher_subjects (`teacher_id`,`subject_id`) VALUES('" + teacherID + "','" + subjectID + "');";
         DB.doUpdate(update);
     }
 

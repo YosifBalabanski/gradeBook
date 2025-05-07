@@ -25,7 +25,7 @@ public class TeacherMenu {
 
     public static void grade(String date, double grade, String subjectName, String studentID, String teacherEmail) throws SQLException {
         String teacherID = DB.searchLoginID(teacherEmail), subjectID = DB.searchSubjectID(subjectName);
-        DB.doUpdate("INSERT INTO `dnevnik`.`grades`(`date`,`grade`,`subject_id`,`student_id`,`teacher_id`) VALUES ('" + date + "', '" + grade + "', '" + subjectID + "', '" + studentID + "', '" + teacherID + "');");
+        DB.doUpdate("INSERT INTO grades (`date`,`grade`,`subject_id`,`student_id`,`teacher_id`) VALUES ('" + date + "', '" + grade + "', '" + subjectID + "', '" + studentID + "', '" + teacherID + "');");
     }
 
     public static void takeAttendance(String date) throws SQLException {
@@ -65,7 +65,7 @@ public class TeacherMenu {
             System.out.println("---end---");
             for (int j = 0; j < count; j++) {
                 if(idLog[j] != 0){
-                    String update = "INSERT INTO `dnevnik`.`attendance` (`date`,`student_id`,`subject_id`) VALUES('" + date + "', '" + idLog[j] + "', '" + subjectID + "');";
+                    String update = "INSERT INTO attendance (`date`,`student_id`,`subject_id`) VALUES('" + date + "', '" + idLog[j] + "', '" + subjectID + "');";
                     DB.doUpdate(update);
                 }
             }
@@ -74,7 +74,7 @@ public class TeacherMenu {
     }
 
     public static void sendFeedback(String date, String comment, String teacherEmail, String studentID) throws SQLException {
-        DB.doUpdate("INSERT INTO `dnevnik`.`comments` (`date`,`feedback`,`student_id`,`teacher_id`) VALUES ('" + date + "','" + comment + "','" + studentID + "','" + DB.searchLoginID(teacherEmail) + "');");
+        DB.doUpdate("INSERT INTO comments (`date`,`feedback`,`student_id`,`teacher_id`) VALUES ('" + date + "','" + comment + "','" + studentID + "','" + DB.searchLoginID(teacherEmail) + "');");
     }
 
     public static void showUsers() throws SQLException {

@@ -3,7 +3,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DB {
-    private static final String URL = "jdbc:mysql://127.0.0.1:3306/dnevnik";
+    private static final String URL = "jdbc:mysql://127.0.0.1:3306/GradeBook";
     private static final String USER = "root";
     private static final String PASSWORD = "qwerty1234";
     private static final Logger LOGGER = Logger.getLogger(DB.class.getName());

@@ -42,7 +42,7 @@ public class AdminMenu {
         role = scanner.nextLine();
         System.out.println("Please enter a verification Code");
         vCode = scanner.nextLine();
-        DB.doUpdate("INSERT INTO `dnevnik`.`verification_codes` (`role`,`code`) VALUES ('" + role + "' , '" + vCode + "');");
+        DB.doUpdate("INSERT INTO verification_codes (`role`,`code`) VALUES ('" + role + "' , '" + vCode + "');");
     }
 
     public static void generateVCs(String role, int n, int length){
@@ -51,7 +51,7 @@ public class AdminMenu {
             vCode[i] = generate(length);
         }
         for (int i = 0; i < n; i++) {
-            String update = "INSERT INTO `dnevnik`.`verification_codes` (`role`,`code`) VALUES ('" + role + "' , '" + vCode[i] + "');";
+            String update = "INSERT INTO verification_codes (`role`,`code`) VALUES ('" + role + "' , '" + vCode[i] + "');";
             DB.doUpdate(update);
         }
     }
