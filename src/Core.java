@@ -100,6 +100,10 @@ public class Core {
         printQuery("SELECT id, subject_name FROM subjects ORDER BY id ASC");
     }
 
+    public static void printTeachers() throws SQLException {
+        printQuery("SELECT id, full_name FROM teachers ORDER BY id ASC");
+    }
+
 
 
 

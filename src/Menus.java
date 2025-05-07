@@ -242,6 +242,7 @@ public class Menus {
             System.out.println("To make a single time table entry, Press 7: ");
             System.out.println("To view a specific time table, Press 8: ");
             System.out.println("To remove a time table entry, Press 9: ");
+            System.out.println("TO view teachers, Press 10");
             System.out.print("answer: ");
             int answer = scanner.nextInt();
             scanner.nextLine();
@@ -273,6 +274,8 @@ public class Menus {
                 System.out.println("Please enter the id of the time table entry you would like to remove: ");
                 String ttID = scanner.nextLine();
                 DirectorMenu.removeTimeTableEntry(ttID);
+            } else if (answer == 10) {
+                DirectorMenu.showTeacherSubjects();
             }
         }
     }

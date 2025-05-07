@@ -94,13 +94,18 @@ public class DirectorMenu {
 
     public static void assignTeacherToSubject() throws SQLException {
         Scanner scanner = new Scanner(System.in);
+        Core.printTeachers();
         System.out.println("Enter the teacher's id: ");
         String teacherID = scanner.nextLine();
-        System.out.println("Enter the subject name: ");
-        String subjectName = scanner.nextLine();
-        String subjectID = Core.searchSubjectID(subjectName);
+        Core.printSubjects();
+        System.out.println("Enter the subject id: ");
+        String subjectID = scanner.nextLine();
         String update = "INSERT INTO teacher_subjects (`teacher_id`,`subject_id`) VALUES('" + teacherID + "','" + subjectID + "');";
         Core.doUpdate(update);
+    }
+
+    public static void showTeacherSubjects() throws SQLException {
+        Core.printQuery("select t.id, t.full_name as name, s.id, s.subject_name as subject from teacher_subjects ts join teachers t on t.id = ts.teacher_id join subjects s on s.id = ts.subject_id");
     }
 
 }
